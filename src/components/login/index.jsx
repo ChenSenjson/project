@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+// import axios from 'axios'
+
+import { reqLogin } from '../../api'
 import logo from './logo.png'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import './index.less'
 
 @Form.create()
@@ -22,7 +25,48 @@ class Login extends Component {
     
     callback ();
   }
+  login = e =>{
+    e. preventDefault();
+    this.props.form.validateFields((err,values) =>{
+      if(!err){
+        const { username,password } = values
+        /*axios.post('/api/login',{username,password})
+        .then ((response) =>{
+          console.log(response);
+          //判断登录成功
+          if(response.data.status === 0) {
+
+            this.props.history.replace('/')
+          }else {
+            message.error(response.data.msg)
+            //清空
+            this.props.form.resetFields(['password'])
+          }
+          
+        }) 
+        .catch(err => {
+          console.log(err);
+          message.error('网络异常')
+          this.props.form.resetFields(['password'])
+        })*/
+
+        reqLogin(username,password)
+        .then((response) => {
+          console.log(response);
+          
+
+          this.props.history.replace ('/')
+
+        })
+        .catch(msg => {
+          message.error (msg);
+          this.props.form.resetFields(['password'])
+        })
+      }
+    })
+  }
   render() {
+
     const { getFieldDecorator } = this.props.form;
     return (   
       <div className = 'login'>
@@ -32,7 +76,7 @@ class Login extends Component {
         </header>
         <section className ='login-section'>
           <h3>用户登录</h3>
-          <Form className = 'login-form'>
+          <Form className = 'login-form' onSubmit = {this.login}>
             <Form.Item>
                 {getFieldDecorator('username', {
                 rules: [{ required: true, message: '用户名不能为空' 
@@ -74,7 +118,7 @@ class Login extends Component {
                 
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="login-form-button">
+              <Button type="primary" htmlType="submit" className="login-form-button" htmlType = 'submit'>
                 Log in
              </Button>
             </Form.Item>
@@ -87,6 +131,7 @@ class Login extends Component {
     )
   }
 }
+
 
 // export default Form.create()(Login)
 export default Login;
