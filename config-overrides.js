@@ -1,5 +1,6 @@
  const { override, fixBabelImports, addLessLoader,addDecoratorsLegacy,addWebpackAlias } = require('customize-cra');
 
+ const { resolve } = require('path')
 module.exports = override(
   //按需加哉
   fixBabelImports('import', {
@@ -16,6 +17,13 @@ module.exports = override(
  addDecoratorsLegacy(),
  //webpack路劲别名
  addWebpackAlias({
-   
+   '$comp':resolve(__dirname,'./src/components'),
+   '$cont':resolve(__dirname,'./src/containers'),
+   '$api':resolve(__dirname,'./src/api'),
+   '$utlis':resolve(__dirname,'./src/utlis'),
+   '$conf':resolve(__dirname,'./src/config'),
+   '$redux':resolve(__dirname,'./src/redux')
+
+
  })
 ); 

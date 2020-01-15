@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 // import axios from 'axios'
+import { connect } from 'react-redux';
 
-import { reqLogin } from '../../api'
-import logo from './logo.png'
+import { saveUserAsync } from '../../redux/actions';
+import withCheckLogin from '$cont/with-check-login'
+
+import logo from '../../assets/logo.png'
 import { Form, Icon, Input, Button, message } from 'antd';
 import './index.less'
 
+@withCheckLogin
+@connect(null, { saveUserAsync })
 @Form.create()
 class Login extends Component {
   //自定义表单校验规则
@@ -49,11 +54,10 @@ class Login extends Component {
           message.error('网络异常')
           this.props.form.resetFields(['password'])
         })*/
-
-        reqLogin(username,password)
+        this.props
+        .saveUserAsync(username,password)
         .then((response) => {
-          console.log(response);
-          
+         
 
           this.props.history.replace ('/')
 
