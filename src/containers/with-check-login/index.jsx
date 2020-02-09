@@ -18,7 +18,7 @@ export default function withCheckLogin(WrappedComponent){
         
         if (token) {
           if(pathname === '/login'){
-            return <Redirect to ="./"/>
+            return <Redirect to ="/"/>
           }
         }else {
           if (pathname === '/'){

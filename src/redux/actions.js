@@ -2,11 +2,14 @@
 
 
 import { reqLogin } from '../api';
-import { setItem } from '../utlis/storage';
-import { SAVE_USER } from './action-type';
+import { setItem } from '../utils/storage';
+import { SAVE_USER,REMOVE_USER ,CHANGE_LANGUAGE} from './action-type';
 
+export const changeLanguage = (lang) => ({type:CHANGE_LANGUAGE,data:lang})
 const saveUser = user => ({ type: SAVE_USER, data: user });
 
+export const removeUser = () => ({ type: REMOVE_USER })
+ 
 export const saveUserAsync = (username, password) => {
   return dispatch => {
     // 当前函数返回值，作为将来组件调用时的返回值

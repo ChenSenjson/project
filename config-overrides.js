@@ -20,7 +20,7 @@ module.exports = override(
    '$comp':resolve(__dirname,'./src/components'),
    '$cont':resolve(__dirname,'./src/containers'),
    '$api':resolve(__dirname,'./src/api'),
-   '$utlis':resolve(__dirname,'./src/utlis'),
+   '$utils':resolve(__dirname,'./src/utils'),
    '$conf':resolve(__dirname,'./src/config'),
    '$redux':resolve(__dirname,'./src/redux')
 

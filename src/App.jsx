@@ -1,26 +1,51 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router,Route,Switch} from 'react-router-dom'
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from 'react-redux'
+import { IntlProvider } from "react-intl";
+import { en, zhCN } from "./locales/";
+import Login from "./containers/login";
+import { ConfigProvider } from 'antd';
+import zh_CN from 'antd/es/locale/zh_CN'
+import en_US from 'antd/es/locale/en_US'
+import BasicLayout from "./components/basic-layout";
 
-import Home from './components/home'
-import Login from './containers/login'
+import routes from "./config/routes";
 
-import BasicLayout from './components/basic-layout'
-
-export default class App extends Component {
+@connect(
+  (state) => ({language:state.language}),null
+)
+class App extends Component {
   render() {
-    /**验证登录
-     * 
-     * 
-       */
+    
+    const language = this.props.language;
+    
+   
+    const isEn = language === "en";
+    
     return (
-      <Router>
-        <Switch>
-        <Route path= '/login' exact component ={Login} />
-          <BasicLayout>
-            <Route path= '/' exact component ={Home} />
-          </BasicLayout>
-        </Switch>
-      </Router>
-    )
+      <ConfigProvider locale ={isEn ? en_US : zh_CN}>
+        <IntlProvider locale={language}  messages={isEn ? en : zhCN}
+        >
+        <Router>
+          <Switch>
+            <Route path="/login" exact component={Login} />
+            <BasicLayout>
+              {routes.map(route => (
+                <Route
+                  path={route.path}
+                  exact={route.exact}
+                  component={route.component}
+                  key={route.path}
+                />
+              ))}
+            </BasicLayout>
+          </Switch>
+        </Router>
+      </IntlProvider>
+      </ConfigProvider>
+      
+    );
   }
 }
+
+export default App;

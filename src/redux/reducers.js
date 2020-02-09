@@ -1,28 +1,35 @@
 import { combineReducers } from 'redux'
-import { SAVE_USER } from './action-type';
-import { getItem } from '../utlis/storage'
+import { SAVE_USER,REMOVE_USER,CHANGE_LANGUAGE } from './action-type';
+import { getItem } from '../utils/storage'
 
 const initUser = getItem('user') || {};
 function user(prevState = initUser, action) {
   switch (action.type) {
     case SAVE_USER:
       return action.data;
+    case REMOVE_USER:
+      return {};
     default:
       return prevState;
-  }
+  } 
 }
 
-function bbb (prevState = 222, action){
+const initLanguage = navigator.language || navigator.language[0] || "zh-CN"; 
+function language (prevState = initLanguage, action){
 
   switch(action.type){
-    default:
+    case CHANGE_LANGUAGE : 
+      return action.data;
+    default: 
       return prevState;
 
   }
 
 }
+
+
 
 export default combineReducers({
   user,
-  bbb
+  language
 });
